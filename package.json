@@ -1,0 +1,43 @@
+{
+  "name": "veggie-bot",
+  "version": "1.0.0",
+  "description": "Veggie Club WhatsApp bot",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start-production": "node app-compiled.js",
+    "dev": "nodemon --exec npm run babel-test",
+    "babel-test": "babel-node *.js",
+    "build": "babel app.js --out-file app-compiled.js",
+    "restart": "node app.js restart"
+  },
+  "nodemonConfig": {
+    "ignore": ["*.json"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Federico-Shih/Veggie-Bot.git"
+  },
+  "author": "Sh1ft",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Federico-Shih/Veggie-Bot/issues"
+  },
+  "homepage": "https://github.com/Federico-Shih/Veggie-Bot#readme",
+  "dependencies": {
+    "lodash": "^4.17.19",
+    "minimist": "^1.2.5",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.7.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/node": "^7.10.5",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "nodemon": "^2.0.4"
+  }
+}
