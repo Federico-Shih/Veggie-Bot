@@ -14,7 +14,9 @@
     "restart": "node app.js restart"
   },
   "nodemonConfig": {
-    "ignore": ["*.json"]
+    "ignore": [
+      "*.json"
+    ]
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,8 @@
   "dependencies": {
     "lodash": "^4.17.19",
     "minimist": "^1.2.5",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.25",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.7.0"
   },

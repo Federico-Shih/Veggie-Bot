@@ -1,11 +1,15 @@
-const employeeCommands = {
-  help: {
-    message: 'Uso: veg -h. Devuelve posibles comandos',
-  },
-  setgroup: { message: 'SHitt'},
-  commandMapper: () => {},
-};
+import { Group } from './database.js';
 
-for (let command of Object.entries(employeeCommands)) {
-  console.log(command[1].hasOwnProperty('message'))
-} 
+const newGroup = new Group({ number: '10000' });
+newGroup.save((err, doc) => {
+  if (err) throw err;
+  console.log(doc);
+});
+
+async function search() {
+  const searchres = await Group.find();
+  console.log(searchres);
+}
+
+search();
+// wait();

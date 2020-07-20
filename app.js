@@ -4,6 +4,7 @@ import fs from 'fs';
 
 import { messageType, whatsappIds } from './helpers.js';
 import { employeeCommands, isEmployee } from './employees.js';
+import { Group, Consumer } from './database.js';
 
 const { Client } = pkg;
 const SESSION_FILE_PATH = 'session.json';
@@ -46,11 +47,10 @@ client.on('ready', () => {
   console.log('Client is ready!');
 });
 
-client.on('message', (message) => {
-  // console.log(message);
-  const filter = JSON.parse(fs.readFileSync('./filter.json'));
-  console.log(message);
-  if (filter.group === '') {
+client.on('message', async (message) => {
+  const groups = await Group.find().catch((err) => { throw err; });
+
+  if (groups.length === 0) {
     if (whatsappIds.group === messageType(message.from)) {
       employeeCommands(message, client);
     }

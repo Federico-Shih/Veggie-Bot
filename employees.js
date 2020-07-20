@@ -2,13 +2,15 @@ import fs from 'fs';
 import minimist from 'minimist';
 
 import { messageType, whatsappIds, checkPrepend } from './helpers.js';
+import { Group } from './database.js';
 
 const settings = JSON.parse(fs.readFileSync('./app-settings.json'));
 
-function setGroupId(groupId) {
-  const filter = JSON.parse(fs.readFileSync('./filter.json'));
-  filter.group = groupId;
-  fs.writeFileSync('./filter.json', JSON.stringify(filter));
+async function addGroupId(groupId) {
+  const newGroup = new Group({ number: groupId });
+  await newGroup.save().catch((err) => {
+    throw err;
+  });
 }
 
 export const commandsHelp = {
@@ -32,18 +34,16 @@ export const employeeCommands = (message, client) => {
   if (checkPrepend(message.body)) {
     const args = minimist(message.body.split(' ').slice(1), options);
     if (args.setgroup) {
-      console.log("Main group has been set");
-      setGroupId(message.from);
+      console.log('Main group has been set');
+      addGroupId(message.from);
       message.reply('Este grupo se ha designado como el grupo principal.');
     } else if (args.help) {
       let string = 'Comandos existentes:\n ----------------- \n';
-
       Object.entries(commandsHelp).forEach((command) => {
         if (Object.prototype.hasOwnProperty.call(command[1], 'message')) {
           string = string.concat(`» ${command[0]}: ${command[1].message}. \n`);
         }
       });
-
       client.sendMessage(message.from, string);
     } else {
       client.sendMessage(message.from, 'Lista de comandos: veg -h');
@@ -51,12 +51,10 @@ export const employeeCommands = (message, client) => {
   }
 };
 
-export const isEmployee = function checkifEmployee(message) {
-  const filter = JSON.parse(fs.readFileSync('./filter.json'));
-  if (filter.group === message.from) {
-    return true;
-  }
-  return false;
+export const isEmployee = async function checkifEmployee(message) {
+  const groups = await Group.find().catch((err) => { throw err; });
+
+  return groups.some(({ number }) => number === message.from);
 };
 
 export const employeeFunctions = (message, client) => {
