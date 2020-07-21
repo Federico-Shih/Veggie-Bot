@@ -4,6 +4,7 @@ import fs from 'fs';
 
 import { messageType, whatsappIds } from './helpers.js';
 import { employeeCommands, isEmployee } from './employees.js';
+import { consumerCommands } from './consumers.js';
 import { Group, Consumer } from './database.js';
 
 const { Client } = pkg;
@@ -49,13 +50,14 @@ client.on('ready', () => {
 
 client.on('message', async (message) => {
   const groups = await Group.find().catch((err) => { throw err; });
-
   if (groups.length === 0) {
     if (whatsappIds.group === messageType(message.from)) {
       employeeCommands(message, client);
     }
-  } else if (isEmployee(message)) {
-    employeeCommands(message, client);
+  } else if (await isEmployee(message)) {
+    await employeeCommands(message, client);
+  } else {
+    await consumerCommands(message, client);
   }
 });
 

@@ -29,11 +29,15 @@
   },
   "homepage": "https://github.com/Federico-Shih/Veggie-Bot#readme",
   "dependencies": {
+    "axios": "^0.19.2",
+    "inquirer": "^7.3.2",
     "lodash": "^4.17.19",
+    "mime-types": "^2.1.27",
     "minimist": "^1.2.5",
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.25",
     "qrcode-terminal": "^0.12.0",
+    "uuid": "^8.2.0",
     "whatsapp-web.js": "^1.7.0"
   },
   "devDependencies": {

@@ -13,7 +13,7 @@ async function addGroupId(groupId) {
   });
 }
 
-export const commandsHelp = {
+const commandsHelp = {
   help: {
     message: 'veg -h. Devuelve posibles comandos',
   },
@@ -31,8 +31,10 @@ export const employeeCommands = (message, client) => {
     },
   };
 
+  // Check if employee is actually using any commands.
   if (checkPrepend(message.body)) {
     const args = minimist(message.body.split(' ').slice(1), options);
+
     if (args.setgroup) {
       console.log('Main group has been set');
       addGroupId(message.from);
@@ -53,8 +55,8 @@ export const employeeCommands = (message, client) => {
 
 export const isEmployee = async function checkifEmployee(message) {
   const groups = await Group.find().catch((err) => { throw err; });
-
-  return groups.some(({ number }) => number === message.from);
+  const isInDb = groups.some(({ number }) => number === message.from);
+  return isInDb;
 };
 
 export const employeeFunctions = (message, client) => {
