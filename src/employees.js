@@ -23,7 +23,7 @@ const commandsHelp = {
 };
 
 // Process all employee commands uses minimist to get which flags have been triggered.
-export const employeeCommands = (message, client) => {
+export const employeeCommands = async (message, client) => {
   const options = {
     boolean: ['--setgroup', '--help'],
     alias: {
@@ -36,7 +36,6 @@ export const employeeCommands = (message, client) => {
     const args = minimist(message.body.split(' ').slice(1), options);
 
     if (args.setgroup) {
-      console.log('Main group has been set');
       addGroupId(message.from);
       message.reply('Este grupo se ha designado como el grupo principal.');
     } else if (args.help) {
@@ -50,15 +49,19 @@ export const employeeCommands = (message, client) => {
     } else {
       client.sendMessage(message.from, 'Lista de comandos: veg -h');
     }
+  } else if (message.hasQuotedMsg) {
+    const quoted = await message.getQuotedMessage().catch((err) => { throw err; });
+    const respondTo = quoted.body.split(':')[0];
+    client.sendMessage(respondTo, message.body);
   }
+};
+
+export const respondEmployee = async (message, client) => {
+  const groups = await Group.find().catch((err) => { throw err; });
 };
 
 export const isEmployee = async function checkifEmployee(message) {
   const groups = await Group.find().catch((err) => { throw err; });
   const isInDb = groups.some(({ number }) => number === message.from);
   return isInDb;
-};
-
-export const employeeFunctions = (message, client) => {
-
 };
