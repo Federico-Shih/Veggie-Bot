@@ -16,10 +16,7 @@ const PhotoSchema = new Schema({
   name: String,
   category: String,
   day: {
-    type: Number,
-    min: -1,
-    max: 6,
-    default: -1,
+    type: Array,
   },
 });
 

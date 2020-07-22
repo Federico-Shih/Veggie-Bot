@@ -1,5 +1,5 @@
 {
   "prepend": ["veg", "Veg"],
-  "photosPath": "./photos",
+  "photosPath": "./src/photos",
   "cdn-link": "fedeshih.me/"
 }

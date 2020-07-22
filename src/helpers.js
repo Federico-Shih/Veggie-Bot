@@ -1,6 +1,7 @@
 import lodash from 'lodash';
 import fs from 'fs';
 import axios from 'axios';
+import util from 'util';
 
 export async function downloadCatPhoto() {
   const res = await axios({
@@ -26,6 +27,7 @@ export async function downloadCatPhoto() {
       .catch((err) => reject(err));
   });
 }
+
 const settings = JSON.parse(fs.readFileSync('./app-settings.json'));
 
 export const messageType = (id) => id.split('@')[1];

@@ -2,13 +2,13 @@ import qrcode from 'qrcode-terminal';
 import pkg from 'whatsapp-web.js';
 import fs from 'fs';
 
-import { messageType, whatsappIds } from './helpers.js';
-import { employeeCommands, isEmployee } from './employees.js';
-import { consumerCommands } from './consumers.js';
-import { Group, Consumer } from './database.js';
+import { messageType, whatsappIds } from './src/helpers.js';
+import { employeeCommands, isEmployee } from './src/employees.js';
+import { consumerCommands } from './src/consumers.js';
+import { Group, Consumer } from './src/database.js';
 
 const { Client } = pkg;
-const SESSION_FILE_PATH = 'session.json';
+const SESSION_FILE_PATH = './session.json';
 
 let restart = false;
 
@@ -50,10 +50,8 @@ client.on('ready', () => {
 
 client.on('message', async (message) => {
   const groups = await Group.find().catch((err) => { throw err; });
-  if (groups.length === 0) {
-    if (whatsappIds.group === messageType(message.from)) {
-      employeeCommands(message, client);
-    }
+  if (groups.length === 0 && whatsappIds.group === messageType(message.from)) {
+    employeeCommands(message, client);
   } else if (await isEmployee(message)) {
     await employeeCommands(message, client);
   } else {

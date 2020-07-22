@@ -26,7 +26,9 @@ export async function addPhoto(inImagePath, name, category, day) {
     await newFood.save().catch((err) => {
       throw new Error('Unable to save new food');
     });
-    await fs.rename(`${settings.photosPath}/temp/${inImagePath}`, `${settings.photosPath}/food/${newPath}`);
+    fs.rename(`${settings.photosPath}/temp/${inImagePath}`, `${settings.photosPath}/food/${newPath}`, (err) => {
+      if (err) throw err;
+    });
   } else {
     throw new Error('That is not a valid image path');
   }
@@ -36,8 +38,10 @@ export async function getPhotos(day) {
   if (day > 6 || day < -1) {
     throw new Error('Wrong day parametres');
   }
-  const foods = await Food.find({ day }).catch((err) => { throw err; });
-  return foods;
+  const foods = await Food.find({ day: { $in: [day] } }).catch((err) => { throw err; });
+  const permanentFoods = await Food.find({ day: { $in: [-1] } }).catch((err) => { throw err; });
+
+  return foods.concat(permanentFoods);
 }
 
 export async function replacePhoto(inImagePath, imageId) {
@@ -45,7 +49,9 @@ export async function replacePhoto(inImagePath, imageId) {
   if (Object.entries(image).length === 0) {
     console.log('That image is not in the database');
   } else {
-    fs.rename(inImagePath, `${settings.photosPath}/${image.category}/${image.path}`);
+    fs.rename(inImagePath, `${settings.photosPath}/${image.category}/${image.path}`, (err) => {
+      if (err) throw err;
+    });
   }
 }
 
@@ -57,9 +63,9 @@ export async function removePhoto(imageId) {
     await Food.deleteOne({ _id: imageId }).catch(
       (err) => { throw new Error(err, 'Element not in database'); },
     );
-    await fs.unlink(image.path).catch(
-      (err) => { throw new Error(err.message, 'Element not in filesystem'); },
-    );
+    fs.unlink(image.path, (err) => {
+      throw err;
+    });
   }
 }
 

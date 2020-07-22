@@ -61,8 +61,8 @@ export const consumerCommands = async (message, client) => {
           message.reply(menu);
         }
       } else if (args.cat) {
-        const photoList = await readdir('./photos/cat').catch((err) => { throw err; });
-        const appendFile = `./photos/cat/${photoList[Math.floor(Math.random() * photoList.length)]}`;
+        const photoList = await readdir(`${settings.photosPath}/cat`).catch((err) => { throw err; });
+        const appendFile = `${settings.photosPath}/cat/${photoList[Math.floor(Math.random() * photoList.length)]}`;
         const newPhoto = MessageMedia.fromFilePath(appendFile);
         client.sendMessage(message.from, newPhoto);
       }

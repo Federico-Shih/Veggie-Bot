@@ -1,12 +1,11 @@
 import axios from 'axios';
 import fs from 'fs';
 import util from 'util';
-import mongoose from 'mongoose';
 import inquirer from 'inquirer';
 import minimist from 'minimist';
 
-import { getImageExtension } from './helpers.js';
-import { addPhoto } from './photos-manager.js';
+import { getImageExtension } from './src/helpers.js';
+import { addPhoto, getPhotos } from './src/photos-manager.js';
 
 const readdir = util.promisify(fs.readdir);
 
@@ -26,7 +25,6 @@ const options = {
 
 // console.log(getImageExtension('lalala/sdakdsa./lol.png'));
 
-/*
 const questions = [{
   type: 'input',
   name: 'name',
@@ -51,7 +49,7 @@ async function photoCataloger() {
     object.category = '';
     object.name = '';
     object.oldName = image;
-    object.day = -1;
+    object.day = [-1];
     list.push(object);
   });
 
@@ -64,9 +62,15 @@ async function photoExporter() {
   json.forEach((x) => { addPhoto(x.oldName, x.name, x.category, x.day); });
 }
 
+async function addPhotos() {
+  // addPhoto('batatas fritas.jpg', 'Batatas fritas', 'frituras', [-1]);
+  const lol = await getPhotos(1);
+  console.log(lol);
+}
 // photoExporter();
-photoCataloger();
-*/
+// photoCataloger();
+
+addPhotos();
 /*
 async function downloadPhoto() {
   const res = await axios({
