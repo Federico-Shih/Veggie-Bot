@@ -28,7 +28,7 @@ export async function downloadCatPhoto() {
   });
 }
 
-const settings = JSON.parse(fs.readFileSync('./app-settings.json'));
+const settings = JSON.parse(fs.readFileSync('./src/app-settings.json'));
 
 export const messageType = (id) => id.split('@')[1];
 

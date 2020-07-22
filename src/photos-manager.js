@@ -5,7 +5,7 @@ import util from 'util';
 import { Food } from './database.js';
 import { getImageExtension } from './helpers.js';
 
-const settings = JSON.parse(fs.readFileSync('./app-settings.json'));
+const settings = JSON.parse(fs.readFileSync('./src/app-settings.json'));
 
 const readdir = util.promisify(fs.readdir);
 

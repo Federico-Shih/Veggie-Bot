@@ -4,7 +4,6 @@ import mime from 'mime-types';
 import fs from 'fs';
 import util from 'util';
 
-import { group } from 'console';
 import {
   messageType, whatsappIds, checkPrepend, groupBy,
 } from './helpers.js';
@@ -23,7 +22,7 @@ const commandsHelp = {
 };
 */
 // Get app settings
-const settings = JSON.parse(fs.readFileSync('./app-settings.json'));
+const settings = JSON.parse(fs.readFileSync('./src/app-settings.json'));
 
 // Receives a message and a client if the message.from is a consumer
 export const consumerCommands = async (message, client) => {

@@ -2,13 +2,13 @@ import qrcode from 'qrcode-terminal';
 import pkg from 'whatsapp-web.js';
 import fs from 'fs';
 
-import { messageType, whatsappIds } from './src/helpers.js';
-import { employeeCommands, isEmployee } from './src/employees.js';
-import { consumerCommands } from './src/consumers.js';
-import { Group, Consumer } from './src/database.js';
+import { messageType, whatsappIds } from './helpers.js';
+import { employeeCommands, isEmployee } from './employees.js';
+import { consumerCommands } from './consumers.js';
+import { Group, Consumer } from './database.js';
 
 const { Client } = pkg;
-const SESSION_FILE_PATH = './session.json';
+const SESSION_FILE_PATH = './src/session.json';
 
 // Check if command sent is restart.
 let restart = false;

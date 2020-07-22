@@ -6,16 +6,15 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "start-production": "node app-compiled.js",
-    "dev": "nodemon --exec npm run babel-test",
-    "babel-test": "babel-node *.js",
-    "build": "babel app.js --out-file app-compiled.js",
-    "restart": "node app.js restart"
+    "start": "node dist/app.js",
+    "start-inspect": "node --inspect dist/app.js",
+    "dev": "nodemon -w dist --exec \"npm run start-inspect\"",
+    "watch-build": "babel src --out-dir dist --watch --copy-files --source-maps",
+    "build": "rm -rf dist && babel src --out-dir dist --copy-files --source-maps"
   },
   "nodemonConfig": {
     "ignore": [
-      "*.json"
+      "./src/*.json"
     ]
   },
   "repository": {
@@ -29,7 +28,10 @@
   },
   "homepage": "https://github.com/Federico-Shih/Veggie-Bot#readme",
   "dependencies": {
+    "@babel/runtime": "^7.10.5",
     "axios": "^0.19.2",
+    "bundle-js": "^1.0.3",
+    "core-js": "^3.6.5",
     "inquirer": "^7.3.2",
     "lodash": "^4.17.19",
     "mime-types": "^2.1.27",
@@ -41,11 +43,22 @@
     "whatsapp-web.js": "^1.7.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.5",
     "@babel/core": "^7.10.5",
     "@babel/node": "^7.10.5",
+    "@babel/plugin-external-helpers": "^7.10.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@rollup/plugin-babel": "^5.1.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babelrc-rollup": "^3.0.0",
     "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "rollup": "^2.22.2",
+    "rollup-plugin-babel": "^4.4.0"
   }
 }
