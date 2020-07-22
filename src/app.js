@@ -32,6 +32,9 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 // Start client with session or without if null
 const client = new Client({
   session: sessionJSON,
+  puppeteer: {
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  },
 });
 
 // Generate qr code if not started with session JSON
