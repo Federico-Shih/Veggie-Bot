@@ -1,1 +1,7 @@
 node_modules/
+database-config/
+.eslintrc.js
+.dockerignore
+.gitignore
+docker-compose.yml
+Dockerfile

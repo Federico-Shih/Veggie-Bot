@@ -15,7 +15,9 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+ADD src /usr/src/app/src
+
+COPY .babelrc ./
 
 RUN npm run build
 

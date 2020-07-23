@@ -4,7 +4,7 @@ services:
   veggie-app:
     build: .
     volumes:
-    - photos:/usr/src/app/src/photos
+    - photos:/usr/src/app/dist/photos
     environment:
     - DATABASE_URL=mongodb://database:27017/veggie-club
     depends_on: 
@@ -13,6 +13,15 @@ services:
     image: mongo
     volumes:
     - db:/var/lib/mongodb
+  nginx:
+    build:
+      context: ./database-config
+    ports:
+    - 80:80
+    volumes:
+    - photos:/var/www/veggie-club
+    depends_on: 
+      - veggie-app
 
 volumes:
   photos:
