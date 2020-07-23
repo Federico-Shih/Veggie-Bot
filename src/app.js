@@ -8,7 +8,7 @@ import { consumerCommands } from './consumers.js';
 import { Group, Consumer } from './database.js';
 
 const { Client } = pkg;
-const SESSION_FILE_PATH = './src/session.json';
+const SESSION_FILE_PATH = './dist/session.json';
 
 // Check if command sent is restart.
 let restart = false;
@@ -46,7 +46,7 @@ client.on('qr', (qr) => {
 client.on('authenticated', (session) => {
   if (restart) {
     const stringSession = JSON.stringify(session);
-    fs.writeFile('session.json', stringSession, (err) => {
+    fs.writeFile(SESSION_FILE_PATH, stringSession, (err) => {
       if (err) throw err;
     });
   }

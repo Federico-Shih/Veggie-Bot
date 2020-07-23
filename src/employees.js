@@ -4,7 +4,7 @@ import minimist from 'minimist';
 import { messageType, whatsappIds, checkPrepend } from './helpers.js';
 import { Group } from './database.js';
 
-const settings = JSON.parse(fs.readFileSync('./src/app-settings.json'));
+const settings = JSON.parse(fs.readFileSync('./dist/app-settings.json'));
 
 async function addGroupId(groupId) {
   const newGroup = new Group({ number: groupId });

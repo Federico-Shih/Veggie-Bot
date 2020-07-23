@@ -22,7 +22,7 @@ const commandsHelp = {
 };
 */
 // Get app settings
-const settings = JSON.parse(fs.readFileSync('./src/app-settings.json'));
+const settings = JSON.parse(fs.readFileSync('./dist/app-settings.json'));
 
 // Receives a message and a client if the message.from is a consumer
 export const consumerCommands = async (message, client) => {

@@ -5,12 +5,12 @@ import util from 'util';
 import { Food } from './database.js';
 import { getImageExtension } from './helpers.js';
 
-const settings = JSON.parse(fs.readFileSync('./src/app-settings.json'));
+const settings = JSON.parse(fs.readFileSync('./dist/app-settings.json'));
 
 const readdir = util.promisify(fs.readdir);
 
 /*
-  inImagePath: String, it checks for the photos in /src/photos/temp/inImagePath
+  inImagePath: String, it checks for the photos in /dist/photos/temp/inImagePath
   name: String, Name that the consumer will be checking
   category: String, Category that the food is
   day: List of Numbers, days in which its present. -1 for when its always present

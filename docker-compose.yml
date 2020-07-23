@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  veggie-app:
+    build: .
+    volumes:
+    - photos:/usr/src/app/src/photos
+    environment:
+    - DATABASE_URL=mongodb://database:27017/veggie-club
+    depends_on: 
+    - database
+  database:
+    image: mongo
+    volumes:
+    - db:/var/lib/mongodb
+
+volumes:
+  photos:
+  db:
