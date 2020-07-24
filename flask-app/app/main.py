@@ -125,7 +125,7 @@ def photos():
           days[i] = int(days[i])
         ext = photo.filename.split(".")
         ext = ext[len(ext) - 1]
-        filename =  f'{shortuuid.uuid()}.{ext}'
+        filename =  f'{shortuuid.ShortUUID().random(length=8)}.{ext}'
         
         photo.save(os.path.join(PHOTO_FOLDER, filename))
 

@@ -88,7 +88,7 @@ export const consumerCommands = async (message, client) => {
           Object.keys(foodMap).forEach((category) => {
             menu = menu.concat(`${category}: \n`);
             foodMap[category].forEach((food) => {
-              menu = menu.concat(`${food.name}: ${settings['cdn-link']}${food.path}`);
+              menu = menu.concat(`${food.name}: ${settings['cdn-link']}${food.path}\n`);
             });
           });
           message.reply(menu);
