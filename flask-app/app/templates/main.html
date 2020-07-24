@@ -21,8 +21,15 @@
 
   </head>
   <body>
-    <h1 style="padding: 15px">Veggie Club</h1>
-    <hr>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="navbar-brand">Veggie Club</div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          {% block navbar %}
+          {% endblock %}
+        </ul>
+      </div>
+    </nav>
     {% block main %}{% endblock %}
   </body>
 </html>

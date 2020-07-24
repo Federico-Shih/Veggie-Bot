@@ -30,11 +30,21 @@ export async function downloadCatPhoto() {
 
 const settings = JSON.parse(fs.readFileSync('./dist/app-settings.json'));
 
-export const messageType = (id) => id.split('@')[1];
+export const messageType = (id) => id.split('@')[id.split('@').length - 1];
 
 export const whatsappIds = {
   contact: 'c.us',
   group: 'g.us',
+};
+
+export const checkValidId = (id) => {
+  const idList = id.split('@');
+  if (idList.length === 2) {
+    if (idList[1] === 'c.us' || idList[1] === 'g.us') {
+      return true;
+    }
+  }
+  return false;
 };
 
 export const checkPrepend = (message) => {
@@ -63,3 +73,5 @@ export const groupBy = (list, keyGetter) => {
   });
   return map;
 };
+
+export const removeDiacritics = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');

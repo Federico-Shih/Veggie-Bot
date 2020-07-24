@@ -24,6 +24,16 @@ def get_images():
     photoList.append(photo)
   return photoList
 
+def get_clients():
+  client = MongoClient(os.environ["DATABASE_URL"])
+  db = client["veggie-club"]
+  consumersCollection = db.clients
+  consumers = consumersCollection.find({})
+  consumerList = []
+  for consumer in consumers:
+    consumerList.append(consumer)
+  return consumerList
+
 @app.route('/', methods=["GET", "POST"])
 def login():
   if request.method == "GET":
@@ -49,6 +59,43 @@ def remove_photo():
     print("No such image")
   foods.delete_one({ '_id': ObjectId(request.form.get("photo_id"))})
   return redirect('/photos')
+
+@app.route('/remove_client', methods=["POST"])
+def remove_client():
+  client = MongoClient(os.environ["DATABASE_URL"])
+  db = client["veggie-club"]
+  consumers = db.clients
+  print(request.form.get("client_id"))
+  consumers.delete_one({ '_id': ObjectId(request.form.get("client_id"))})
+  return redirect('/contacts')
+
+@app.route('/contacts', methods=["POST", "GET"])
+def clients():
+  client = MongoClient(os.environ["DATABASE_URL"])
+  db = client["veggie-club"]
+  consumers = db.clients
+  if session.get("password-set") is not None: 
+    if request.method == "GET":
+      return render_template("clientes.html", clients=get_clients())
+    if request.method == "POST":
+      errMsg = ""
+      for key in request.form:
+        if request.form[key].strip() == "":
+          errMsg += f'No hay {key} ingresado. '
+      if errMsg == "":
+        address = f'{request.form["address"]}'
+        name = request.form["name"]
+        number = f'{request.form["number"]}@c.us'
+        new_contact = {
+          'number': number,
+          'name': name,
+          'address': address,
+        }
+        consumers.insert_one(new_contact)
+      else:
+        return render_template("clientes.html", errMsg=errMsg, clients=get_clients())
+    return redirect('/contacts')
+  return redirect('/')
 
 @app.route('/photos', methods=["GET", "POST"])
 def photos():

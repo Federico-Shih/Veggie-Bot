@@ -1,0 +1,57 @@
+{% extends "main.html" %}
+{% block title %}
+  Photos
+{% endblock %}
+
+{% block navbar %}
+<li class="nav-item">
+  <a class="nav-link" href="/photos">Fotos</a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href="/contacts">Clientes</a>
+</li>
+{% endblock %}
+
+{% block main %}
+  <div class="container-fluid">
+    <div class="row" >
+      <div class="col">
+        <form action="/contacts" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <div>Agregar numero</div>
+            <input type="text" name="number">
+          </div>
+          <div class="form-group">
+            <div>Agregar nombre</div>
+            <input type="text" name="name">
+          </div>
+          <div class="form-group">
+            <div>Agregar direccion</div>
+            <input type="text" name="address">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Subir</button>
+          </div>
+        </form>
+        <div>{{ errMsg }}</div>
+      </div>
+      <div class="col" style="display: flex; padding-top: 30px; flex-direction: column;">
+        <h4>Clientes ya presentes</h4>
+        <div style="display: flex; flex-wrap: wrap;">
+          {% for client in clients %}
+            <form action="/remove_client" method="POST" style="padding-bottom: 20px; display: flex; flex-direction: row; align-items: center;">
+              <span>
+                <div>{{ client.number.split("@")[0] }}</div>
+                <div>{{ client.address }}</div>
+                <div>{{ client.name }}</div>
+              </span>
+              <span style="padding-left: 5px">
+                <button type="submit" class="btn btn-secondary" name="client_id" value="{{ client._id }}">borrar</button>
+              </span>
+            </form>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

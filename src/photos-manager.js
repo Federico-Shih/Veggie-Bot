@@ -48,10 +48,9 @@ export async function getPhotos(day) {
   }
   // Get the foods from certain day and the ones that are always
   const foods = await Food.find({ day: { $in: [day] } }).catch((err) => { throw err; });
-  const permanentFoods = await Food.find({ day: { $in: [-1] } }).catch((err) => { throw err; });
 
   // Returns the food object
-  return foods.concat(permanentFoods);
+  return foods;
 }
 
 // Receives the path of the photo we want to use and the image's id we want to replace

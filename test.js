@@ -9,6 +9,7 @@ import { addPhoto, getPhotos } from './src/photos-manager.js';
 
 const readdir = util.promisify(fs.readdir);
 
+
 const options = {
   boolean: ['--setgroup'],
   string: ['--menu'],
@@ -18,13 +19,14 @@ const options = {
   },
 };
 
-// const args = minimist('--menu=hi'.split(' '), options);
-// console.log(typeof args.menu);
+const args = minimist('--menu lunes martes'.split(' '), options);
+console.log(args);
 
 // const readdir = util.promisify(fs.readdir);
 
 // console.log(getImageExtension('lalala/sdakdsa./lol.png'));
 
+/*
 const questions = [{
   type: 'input',
   name: 'name',
