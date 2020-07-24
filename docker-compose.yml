@@ -3,8 +3,6 @@ version: '3.8'
 services:
   veggie-app:
     build: .
-    volumes:
-    - photos:/usr/src/app/dist/photos
     environment:
     - DATABASE_URL=mongodb://database:27017/veggie-club
     depends_on: 
@@ -21,7 +19,20 @@ services:
     volumes:
     - photos:/var/www/veggie-club
     depends_on: 
-      - veggie-app
+    - flask
+  flask:
+    build:
+      context: ./flask-app
+      dockerfile: Dockerfile
+    volumes:
+    - photos:/app/static/images
+    depends_on:
+    - database
+    ports:
+    - 5000:80
+    environment:
+    - DATABASE_URL=mongodb://database:27017
+    - DOMAIN=http://fedeshih.me
 
 volumes:
   photos:

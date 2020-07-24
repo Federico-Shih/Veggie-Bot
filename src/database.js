@@ -11,6 +11,12 @@ const IdSchema = new Schema({
   number: String,
 });
 
+const ConsumerSchema = new Schema({
+  number: String,
+  name: String,
+  address: String,
+});
+
 const PhotoSchema = new Schema({
   path: String,
   name: String,
@@ -21,5 +27,5 @@ const PhotoSchema = new Schema({
 });
 
 export const Group = Model('Groups', IdSchema);
-export const Consumer = Model('Clients', IdSchema);
+export const Consumer = Model('Clients', ConsumerSchema);
 export const Food = Model('Foods', PhotoSchema);

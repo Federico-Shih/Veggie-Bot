@@ -1,0 +1,52 @@
+{% extends "main.html" %}
+{% block title %}
+  Photos
+{% endblock %}
+
+{% block main %}
+  <div class="container-fluid">
+    <div class="row" >
+      <div class="col">
+        <form action="/photos" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <div>Agregar foto</div>
+            <input class="btn btn-secondary" type="file" name="photo" id="photo">
+          </div>
+          <div class="form-group">
+            <div>Agregar categoria</div>
+            <input type="text" name="category">
+          </div>
+          <div class="form-group">
+            <div>Agregar nombre</div>
+            <input type="text" name="name">
+          </div>
+          <div class="form-group">
+            <div>Agregar dias (0 - 6 siendo 0 domingo. Ej: 12345)</div>
+            <input type="text" name="days">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Subir</button>
+          </div>
+        </form>
+        <div>{{ errMsg }}</div>
+      </div>
+      <div class="col" style="display: flex; padding-top: 30px; flex-direction: column;">
+        <h4>Photos ya presentes</h4>
+        <div style="display: flex; flex-wrap: wrap;">
+          {% for photo in photos %}
+            <form action="/remove_photo" method="POST" style="padding-bottom: 20px;">
+              <div>
+                <span>{{photo.category}}:{{ photo.name }} ></span>
+                {% for day in photo.day %}
+                  <span>{{ day }}</span>
+                {% endfor %}
+              </div>
+              <img src="{{ photo.path }}" alt="Photo not found" width=200 height=200>
+              <button type="submit" class="btn btn-secondary" name="photo_id" value="{{ photo._id }}">borrar</button>
+            </form>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
