@@ -69,8 +69,8 @@ export const employeeCommands = async (message, client) => {
   // Check if employee is actually using any commands.
   if (checkPrepend(message.body)) {
     const commands = message.body.split(' ');
+    const args = minimist(commands.slice(1), options);
     if ((commands.length >= 2)) {
-      const args = minimist(commands.slice(1), options);
       if (typeof commands[1] !== 'string') {
         message.reply('No haz ingresado un comando valido');
       }
@@ -165,17 +165,15 @@ export const employeeCommands = async (message, client) => {
         });
         return;
       }
-      if (command === '') {
-        if (args.help) {
-          let string = 'Comandos existentes:\n ----------------- \n';
-          Object.entries(commandsHelp).forEach((help) => {
-            if (Object.prototype.hasOwnProperty.call(help[1], 'message')) {
-              string = string.concat(`» ${help[0]}: ${help[1].message}. \n`);
-            }
-          });
-          client.sendMessage(message.from, string);
-          return;
-        }
+      if (args.help) {
+        let string = 'Comandos existentes:\n ----------------- \n';
+        Object.entries(commandsHelp).forEach((help) => {
+          if (Object.prototype.hasOwnProperty.call(help[1], 'message')) {
+            string = string.concat(`» ${help[0]}: ${help[1].message}. \n`);
+          }
+        });
+        client.sendMessage(message.from, string);
+        return;
       }
     }
     client.sendMessage(message.from, 'Lista de comandos: veg -h');

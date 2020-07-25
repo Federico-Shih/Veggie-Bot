@@ -13,6 +13,7 @@ const readdir = util.promisify(fs.readdir);
 const options = {
   boolean: ['--setgroup'],
   string: ['--menu'],
+  boolean: ['setgroup'],
   alias: {
     h: 'help',
     m: 'menu',
