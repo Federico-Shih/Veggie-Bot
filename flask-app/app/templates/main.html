@@ -21,9 +21,12 @@
 
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="navbar-brand">Veggie Club</div>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <nav class="navbar navbar-expand-lg navbar-light  bg-light">
+      <a class="navbar-brand" href="/">Veggie club</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
           {% block navbar %}
           {% endblock %}

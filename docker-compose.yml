@@ -26,6 +26,8 @@ services:
       dockerfile: Dockerfile
     volumes:
     - photos:/app/static/images
+    ports:
+    - 5000:80
     depends_on:
     - database
     environment:
