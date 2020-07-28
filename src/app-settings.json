@@ -1,5 +1,5 @@
 {
   "prepend": ["veg", "Veg"],
   "photosPath": "./dist/photos",
-  "cdn-link": "veggieclub.com.ar"
+  "cdn-link": "fotos.veggieclub.com.ar"
 }

@@ -9,18 +9,16 @@ import { addPhoto, getPhotos } from './src/photos-manager.js';
 
 const readdir = util.promisify(fs.readdir);
 
-
 const options = {
-  boolean: ['--setgroup'],
-  string: ['--menu'],
   boolean: ['setgroup'],
+  string: ['menu'],
   alias: {
     h: 'help',
     m: 'menu',
   },
 };
 
-const args = minimist('--menu lunes martes'.split(' '), options);
+const args = minimist('veg setgroup menu lunes martes'.split(' ').slice(2), options);
 console.log(args);
 
 // const readdir = util.promisify(fs.readdir);
