@@ -18,8 +18,10 @@
       <div class="col">
         <form action="/photos" method="POST" enctype="multipart/form-data">
           <div class="form-group">
-            <div>Agregar foto</div>
-            <input class="btn btn-secondary" type="file" name="photo" id="photo">
+            <div class="input-group">
+              <input type="file" name="photo" id="photo">
+              <label class="custom-file-label" for="photo">Elegir foto</label>
+            </div>
           </div>
           <div class="form-group">
             <div>Agregar categoria</div>
