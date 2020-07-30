@@ -88,13 +88,14 @@ export const consumerCommands = async (message, client) => {
         else {
           // Groups photos by category
           const foodMap = groupBy(todayPhotos, (photo) => photo.category.trim().toLowerCase());
-          let menu = 'Menu del dia de Veggie Club:\n';
+          let menu = 'Menu del dia de Veggie Club:\n\n';
           // Creates menu by category
           Object.keys(foodMap).forEach((category) => {
-            menu = menu.concat(`${category}: \n`);
+            menu = menu.concat(`*${category}*: \n`);
             foodMap[category].forEach((food) => {
               menu = menu.concat(`${food.name}: ${settings['cdn-link']}${food.path}\n`);
             });
+            menu.concat('\n');
           });
           message.reply(menu);
         }
