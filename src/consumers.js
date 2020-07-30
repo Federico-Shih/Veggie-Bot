@@ -15,10 +15,10 @@ const { MessageMedia } = pkg;
 
 const commandsHelp = {
   help: {
-    message: '*veg -h*. Devuelve posibles comandos',
+    message: '*veg help*. Devuelve posibles comandos',
   },
   menu: {
-    message: '*veg -m*. Devuelve el menu del día. Si utilizas *veg -m lunes* te devuelve el menu de tal dia',
+    message: '*veg menu*. Devuelve el menu del día. Si utilizas \n*veg menu --dia lunes*\n te devuelve el menu de tal dia',
   },
   cat: {
     message: '*veg -c*. Tu gato diario',
@@ -45,20 +45,25 @@ export const consumerCommands = async (message, client) => {
     } else if (checkPrepend(message.body)) {
       // Checks if the consumer has sent a command
       const options = {
-        boolean: ['--menu', '--cat', '--help'],
+        boolean: ['--dia', '--cat'],
         alias: {
-          m: 'menu',
+          d: 'dia',
           c: 'cat',
-          h: 'help',
         },
       };
-      const args = minimist(message.body.split(' ').slice(1), options);
+      const commands = message.body.split(' ');
+      const args = minimist(commands.slice(2), options);
+      if (commands.length < 2) {
+        message.reply(`No haz ingresado un comando. ${commandsHelp.help}`);
+        return;
+      }
+
       // Parses the args sent and redirects
-      if (args.menu) {
+      if (commands[1] === 'menu') {
         let currentDay = -1;
         // Gets current date and get the photos from that day
-        if (typeof args.menu === 'string' || args.menu instanceof String) {
-          const normalizedString = removeDiacritics(args.menu).toLowerCase();
+        if (typeof args.dia === 'string' || args.dia instanceof String) {
+          const normalizedString = removeDiacritics(args.dia).toLowerCase();
           const mapper = {
             domingo: 0,
             lunes: 1,
@@ -78,11 +83,11 @@ export const consumerCommands = async (message, client) => {
             timeZone: 'America/Argentina/Buenos_Aires',
           })).getDay();
         }
-        const todayPhotos = await getPhotos(currentDay).catch((_) => { throw new Error('Error getting photos.'); });
+        const todayPhotos = await getPhotos(currentDay).catch(() => { throw new Error('Error getting photos.'); });
         if (todayPhotos.length === 0) message.reply('Disculpe, no esta disponible el menu de hoy');
         else {
           // Groups photos by category
-          const foodMap = groupBy(todayPhotos, (photo) => photo.category);
+          const foodMap = groupBy(todayPhotos, (photo) => photo.category.trim().toLowerCase());
           let menu = 'Menu del dia de Veggie Club:\n';
           // Creates menu by category
           Object.keys(foodMap).forEach((category) => {
@@ -99,7 +104,7 @@ export const consumerCommands = async (message, client) => {
         const appendFile = `${settings.photosPath}/cat/${photoList[Math.floor(Math.random() * photoList.length)]}`;
         const newPhoto = MessageMedia.fromFilePath(appendFile);
         client.sendMessage(message.from, newPhoto);
-      } else if (args.help) {
+      } else if (commands[1] === 'help') {
         let string = 'Comandos existentes:\n ----------------- \n';
         Object.entries(commandsHelp).forEach((command) => {
           if (Object.prototype.hasOwnProperty.call(command[1], 'message')) {
