@@ -125,7 +125,17 @@ def photos():
           days[i] = int(days[i])
         ext = photo.filename.split(".")
         ext = ext[len(ext) - 1]
-        filename =  f'{shortuuid.ShortUUID().random(length=8)}.{ext}'
+        idTemp = shortuuid.ShortUUID().random(length=8)
+        currentImages = get_images()
+        validUuid = False
+        while not validUuid:
+          for image in currentImages:
+            if idTemp in image:
+              idTemp = shortuuid.ShortUUID().random(length=8)
+              continue
+          validUuid = True
+      
+        filename =  f'{idTemp}.{ext}'
         
         photo.save(os.path.join(PHOTO_FOLDER, filename))
 

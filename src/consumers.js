@@ -4,7 +4,7 @@ import fs from 'fs';
 import util from 'util';
 
 import {
-  messageType, whatsappIds, checkPrepend, groupBy, removeDiacritics,
+  messageType, whatsappIds, checkPrepend, groupBy, removeDiacritics, capitalize,
 } from './helpers.js';
 import { Consumer, Group } from './database.js';
 import { getPhotos } from './photos-manager.js';
@@ -21,7 +21,7 @@ const commandsHelp = {
     message: '*veg menu*. Devuelve el menu del día. Si utilizas \n*veg menu --dia lunes*\n te devuelve el menu de tal dia',
   },
   cat: {
-    message: '*veg -c*. Tu gato diario',
+    message: '*veg cat*. Tu gato diario',
   },
 };
 
@@ -40,15 +40,14 @@ export const consumerCommands = async (message, client) => {
       await newConsumer.save().catch((err) => { throw err; });
       client.sendMessage(message.from,
         `Buenos días! Soy el nuevo bot de Veggie Club!
-        \nSi busca consultar el menú, puede pedirmelo mandando el mensaje\n*veg --menu*.
+        \nSi busca consultar el menú, puede pedirmelo mandando el mensaje\n*veg menu*.
         \nSi quiere hacer un pedido, escriba y dentro de poco será respondido por uno.`);
     } else if (checkPrepend(message.body)) {
       // Checks if the consumer has sent a command
       const options = {
-        boolean: ['--dia', '--cat'],
+        boolean: ['--dia'],
         alias: {
           d: 'dia',
-          c: 'cat',
         },
       };
       const commands = message.body.split(' ');
@@ -91,7 +90,7 @@ export const consumerCommands = async (message, client) => {
           let menu = 'Menu del dia de Veggie Club:\n\n';
           // Creates menu by category
           Object.keys(foodMap).forEach((category) => {
-            menu = menu.concat(`*${category}*: \n`);
+            menu = menu.concat(`*${capitalize(category)}*: \n`);
             foodMap[category].forEach((food) => {
               menu = menu.concat(`${food.name}: ${settings['cdn-link']}${food.path}\n`);
             });
@@ -99,7 +98,7 @@ export const consumerCommands = async (message, client) => {
           });
           message.reply(menu);
         }
-      } else if (args.cat) {
+      } else if (commands[1] === 'cat') {
         // Returns a random cat
         const photoList = await readdir(`${settings.photosPath}/cat`).catch((err) => { throw err; });
         const appendFile = `${settings.photosPath}/cat/${photoList[Math.floor(Math.random() * photoList.length)]}`;

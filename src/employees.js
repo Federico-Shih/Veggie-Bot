@@ -178,12 +178,15 @@ export const employeeCommands = async (message, client) => {
     }
     client.sendMessage(message.from, 'Lista de comandos: veg -h');
   } else if (message.hasQuotedMsg) {
-    const quoted = await message.getQuotedMessage().catch((err) => { throw err; });
-    const respondTo = quoted.body.split(':')[0];
-    if (checkValidId(respondTo)) {
-      client.sendMessage(respondTo, message.body);
-    } else {
-      message.reply('No estas respondiendo a un numero valido.');
+    const group = await Group.findOne({ number: message.from });
+    if (group !== null) {
+      const quoted = await message.getQuotedMessage().catch((err) => { throw err; });
+      const respondTo = quoted.body.split(':')[0];
+      if (checkValidId(respondTo)) {
+        client.sendMessage(respondTo, message.body);
+      } else {
+        message.reply('No estas respondiendo a un numero valido.');
+      }
     }
   }
 };

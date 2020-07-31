@@ -74,4 +74,6 @@ export const groupBy = (list, keyGetter) => {
   return map;
 };
 
+export const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
 export const removeDiacritics = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
