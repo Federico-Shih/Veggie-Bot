@@ -87,16 +87,16 @@ export const consumerCommands = async (message, client) => {
         else {
           // Groups photos by category
           const foodMap = groupBy(todayPhotos, (photo) => photo.category.trim().toLowerCase());
-          let menu = 'Menu del dia de Veggie Club:\n\n';
+          let menu = 'Menu del día de Veggie Club:\n\n';
           // Creates menu by category
           Object.keys(foodMap).forEach((category) => {
-            menu = menu.concat(`*${capitalize(category)}*: \n`);
+            menu = menu.concat(`*${capitalize(category)}*: \n\n`);
             foodMap[category].forEach((food) => {
               menu = menu.concat(`${food.name}: ${settings['cdn-link']}${food.path}\n`);
             });
-            menu.concat('\n');
+            client.sendMessage(message.from, menu);
+            menu = '';
           });
-          message.reply(menu);
         }
       } else if (commands[1] === 'cat') {
         // Returns a random cat
